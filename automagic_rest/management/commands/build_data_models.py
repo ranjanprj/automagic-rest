@@ -313,9 +313,9 @@ class Command(BaseCommand):
 
                 db_column += f", max_digits={max_digits}, decimal_places={decimal_places}"
 
-            if primary_key_has_been_set:
+            if primary_key_has_been_set and row.data_type in COLUMN_FIELD_MAP:
                 field_map = COLUMN_FIELD_MAP[row.data_type].format("", db_column)
-            else:
+            elif row.data_type in COLUMN_FIELD_MAP:
                 # We'll make the first column the primary key, since once is required in the Django ORM
                 # and this is read-only. Primary keys can not be set to NULL in Django.
                 field_map = (
